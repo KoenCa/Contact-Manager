@@ -1,0 +1,77 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Marionette Contact Manager</title>
+    <link href="./assets/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    Contact manger
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app-container">
+        <div id="main-region" class="container">
+            <p>Hello world!</p>
+        </div>
+    </div>
+
+    <script type="text/template" id="contact-list-item">
+        <td><%- firstName %></td> 
+        <td><%- lastName %></td>
+        <td>
+            <a href="#" class="btn btn-default btn-sm js-show" >
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                Show
+            </a>
+            <button type="button" class="btn btn-default btn-sm js-delete" >
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Delete
+            </button>
+        </td>
+    </script>
+    
+    <script type="text/template" id="contact-list">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </script>
+
+    <script type="text/template" id="contact-view">
+        <h1><%- firstName %> <%- lastName %></h1>
+        <p><strong>Phone number: </strong> <%- phoneNumber %></p>
+    </script>
+
+    <script src="./assets/js/vendor/jquery.js"></script>
+    <script src="./assets/js/vendor/json2.js"></script>
+    <script src="./assets/js/vendor/underscore.js"></script>
+    <script src="./assets/js/vendor/backbone.js"></script>
+    <script src="./assets/js/vendor/backbone.marionette.js"></script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/entities/contact.js"></script>
+    <script src="./assets/js/contacts/contacts_app.js"></script>
+    <script src="./assets/js/contacts/list/list_view.js"></script>
+    <script src="./assets/js/contacts/list/list_controller.js"></script>
+    <script src="./assets/js/contacts/show/show_controller.js"></script>
+    <script src="./assets/js/contacts/show/show_view.js"></script>
+
+    <script>
+        ContactManager.start();
+    </script>
+</body>
+
+</html>
