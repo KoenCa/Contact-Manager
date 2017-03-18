@@ -2,7 +2,7 @@
 //Name of submodule, application object, Backbone, Backbone.Marionette, jQuery, Underscore
 ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbone, Marionette, $, _) {
 
-//Controller that handles the data and rendering of our views
+    //Controller that handles the data and rendering of our views
     List.Controller = {
         //Function that handles our contacts list view
         listContacts: function () {
@@ -22,7 +22,7 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             });
 
             contactsListView.on('childview:contact:show', function (childView, model) {
-                ContactManager.ContactsApp.Show.Controller.showContact(model);
+                ContactManager.trigger('contact:show', model.get('id')); //Trigger an event in our router
             });
 
             contactsListView.on('childview:contact:print:model', function (childview, model) {
