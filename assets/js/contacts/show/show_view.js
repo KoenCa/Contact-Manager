@@ -11,4 +11,8 @@ ContactManager.module('ContactsApp.Show', function(Show, ContactManager, Backbon
             ContactManager.trigger('contacts:list'); //Let the router handle it
         }
     });
+
+    Show.MissingContact = Marionette.ItemView.extend({
+        template: '#missing-contact-view'
+    });
 });
