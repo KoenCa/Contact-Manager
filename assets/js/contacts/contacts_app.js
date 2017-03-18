@@ -13,6 +13,13 @@ ContactManager.module('ContactsApp', function (ContactsApp, ContactManager, Back
         }
     };
 
+    ContactManager.on('contacts:list', function () {
+        //Setting the url to contain #contacts, this doesn't load the list of contacts
+        //Its only purpose is to change the URL so the user can for example bookmark it
+        ContactManager.navigate('contacts');
+        API.listContacts();
+    });
+
     ContactsApp.on('start', function () {
         new ContactsApp.Router({
             controller: API
