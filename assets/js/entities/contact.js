@@ -3,9 +3,12 @@
 ContactManager.module('Entities', function (Entities, ContactManager, Backbone, Marionette, $, _) {
     //Attaching the model and collection to the module so they are publicly accessible
 
-    Entities.Contact = Backbone.Model.extend({});
+    Entities.Contact = Backbone.Model.extend({
+        urlRoot: 'contacts'
+    });
 
     Entities.ContactCollection = Backbone.Collection.extend({
+        url: 'contacts',
         model: Entities.Contact,
 
         //Sort on first name and last name
