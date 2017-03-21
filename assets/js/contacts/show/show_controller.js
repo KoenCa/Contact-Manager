@@ -7,7 +7,7 @@ ContactManager.module('ContactsApp.Show', function (Show, ContactManager, Backbo
             var contactView;
             console.log(contact);
             //Check if the contact exists
-            if (contact.firstName !== undefined && contact.firstName !== null) {
+            if (contact !== undefined && contact !== null) {
                 contactView = new Show.Contact({
                     model: contact
                 });
