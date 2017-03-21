@@ -5,9 +5,9 @@ ContactManager.module('ContactsApp.Show', function (Show, ContactManager, Backbo
         showContact: function (id) {
             var contact = ContactManager.request('contact:entity', id);
             var contactView;
-
+            console.log(contact);
             //Check if the contact exists
-            if (contact !== undefined) {
+            if (contact.firstName !== undefined && contact.firstName !== null) {
                 contactView = new Show.Contact({
                     model: contact
                 });

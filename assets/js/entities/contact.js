@@ -4,14 +4,16 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
     //Attaching the model and collection to the module so they are publicly accessible
 
     Entities.Contact = Backbone.Model.extend({
-        urlRoot: 'contacts'
+        url: 'contacts'
     });
 
-    Entities.configureStorage("ContactManager.Entities.Contact");
+    //Entities.configureStorage("ContactManager.Entities.Contact");
 
     Entities.ContactCollection = Backbone.Collection.extend({
-        url: 'contacts',
+        urlRoot: 'contacts',
         model: Entities.Contact,
+
+        localStorage: new Backbone.LocalStorage('contacts-list'),
 
         //Sort on first name and last name
         comparator: function (contact) { //Model of the collection gets past in
