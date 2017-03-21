@@ -18,7 +18,7 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             //Function to remove a contact from the collection
             //This can only be triggered from the childView of our CompositeView
             contactsListView.on('childview:contact:delete', function (childView, model) {
-                contacts.remove(model);
+                model.destroy();
             });
 
             contactsListView.on('childview:contact:show', function (childView, model) {
