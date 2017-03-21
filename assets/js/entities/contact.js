@@ -48,26 +48,49 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
             contact.save();
         });
 
-        return contacts;
+        return contacts.models;
     };
 
     var API = {
         //Call this function use only requests
+        //A deffered object's promise is basically saying 'I promise I'll do something, and I'll update you as things progress
         getContactEntities: function () {
             var contacts = new Entities.ContactCollection();
-            contacts.fetch();
+            var defer = $.Deferred();
 
-            if (contacts.length === 0) {
-                return initializeContacts();
-            }
+            contacts.fetch({
+                success: function (data) {
+                    defer.resolve(data);
+                },
+            });
+            
+            var promise = defer.promise();
+            $.when(promise).done(function (fetchedContacts) {
+                if (fetchedContacts.length === 0) {
+                    var models = initializeContacts();
+                    contacts.reset(models);
+                }
+            });
 
-            return contacts;
+            return promise;
         },
 
+        //A deffered object's promise is basically saying 'I promise I'll do something, and I'll update you as things progress
         getContactEntity: function (contactId) {
             var contact = new Entities.Contact({ id: contactId });
-            contact.fetch();
-            return contact;
+            var defer = $.Deferred();
+
+            setTimeout(function () {
+                contact.fetch({
+                    success: function (data) {
+                        defer.resolve(data);
+                    },
+                    error: function (data) {
+                        defer.resolve(undefined);
+                    }
+                });
+            }, 2000);
+            return defer.promise();
         }
     };
 

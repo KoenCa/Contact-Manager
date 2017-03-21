@@ -6,13 +6,16 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
     List.Controller = {
         //Function that handles our contacts list view
         listContacts: function () {
+            var contactsListView;
 
             //Request the data from Entities module in contact.js
-            var contacts = ContactManager.request('contact:entities');
+            var fetchingContacts = ContactManager.request('contact:entities');
 
             //Define a new CompositeView from list_view.js
-            var contactsListView = new List.Contacts({
-                collection: contacts
+            $.when(fetchingContacts).done(function (contacts) {
+                contactsListView = new List.Contacts({
+                    collection: contacts
+                });
             });
 
             //Function to remove a contact from the collection
