@@ -3,6 +3,17 @@ ContactManager.module('Common.Views', function (Views, ContactManager, Backbone,
     Views.Loading = Marionette.ItemView.extend({
         template: '#loading-view',
 
+        title: 'Loading Data',
+        message: 'Please wait, data is loading.',
+
+        //Marionette calls this function to provide data to the template
+        serializeData: function () {
+            return {
+                title: Marionette.getOption(this, 'title'),
+                message: Marionette.getOption(this, 'message'),
+            };
+        },
+
         //When a view is displayed, Marionnete will trigger a 'show' event
         // and will execute the onShow function if defined
         onShow: function () {

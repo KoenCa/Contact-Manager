@@ -4,7 +4,10 @@ ContactManager.module('ContactsApp.Show', function (Show, ContactManager, Backbo
     Show.Controller = {
         showContact: function (id) {
             //Artificial loading view to show the user that something is happening
-            var loadingView = new ContactManager.Common.Views.Loading();
+            var loadingView = new ContactManager.Common.Views.Loading({
+                title: 'Artificial Loading Delay',
+                message: 'Data loading is delayed to demonstrate using a loading view'
+            });
             ContactManager.regions.main.show(loadingView);
 
             var fetchingContact = ContactManager.request('contact:entity', id);
