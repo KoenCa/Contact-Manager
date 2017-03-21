@@ -6,7 +6,11 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
     List.Controller = {
         //Function that handles our contacts list view
         listContacts: function () {
-            var contactsListView;
+            var contactsListView; //Initialze the variable for our listview, otherwise we get an error
+
+            //Artificial loading view to show the user that something is happening
+            var loadingView = new ContactManager.Common.Views.Loading();
+            ContactManager.regions.main.show(loadingView);
 
             //Request the data from Entities module in contact.js
             var fetchingContacts = ContactManager.request('contact:entities');
