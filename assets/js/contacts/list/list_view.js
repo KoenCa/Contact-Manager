@@ -8,8 +8,9 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
 
         events: {
             'click': 'highlightName',
+            'click td a.js-show': 'showClicked',
+            'click td a.js-edit': 'editClicked',
             'click button.js-delete': 'deleteClicked',
-            'click td a.js-show': 'showClicked'
             //'click td': 'displayContent'
         },
 
@@ -26,10 +27,18 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             this.trigger('contact:delete', this.model);
         },
 
+        //Trigger controller function
         showClicked: function (e) {
             e.preventDefault();
             e.stopPropagation();
             this.trigger('contact:show', this.model);
+        },
+
+        //Trigger controller function
+        editClicked: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.trigger('contact:edit', this.model);
         },
 
         //Marionette calls this function when the model corresponding to this childView is removed
@@ -38,6 +47,15 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             this.$el.fadeOut(function() {
                 //Calls original remove function as we hadn't redefined it.
                 Marionette.ItemView.prototype.remove.call(self);
+            });
+        },
+
+        flash: function(cssClass) {
+            var $view = this.$el;
+            $view.hide().toggleClass(cssClass).fadeIn(800, function () {
+                setTimeout(function () {
+                    $view.toggleClass(cssClass);
+                }, 500);
             });
         }
 

@@ -32,6 +32,25 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
                 ContactManager.trigger('contact:show', model.get('id')); //Trigger an event in our router
             });
 
+            contactsListView.on('childview:contact:edit', function (childView, model) {
+                var view = new ContactManager.ContactsApp.Edit.Contact({
+                    model: model,
+                    asModal: true
+                });
+
+                view.on('form:submit', function(data) {
+                    if (model.save(data)) {
+                        childView.render(); //re-render the table
+                        ContactManager.regions.dialog.empty();
+                        childView.flash('success');
+                    } else {
+                        view.triggerMethod('form:data:invalid', model.validationError);
+                    }
+                });
+
+                ContactManager.regions.dialog.show(view);
+            });
+
             contactsListView.on('childview:contact:print:model', function (childview, model) {
                 console.log('Highlighting toggled on model: ' + model);
             });
