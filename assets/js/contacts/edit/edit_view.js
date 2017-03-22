@@ -3,8 +3,7 @@ ContactManager.module('ContactsApp.Edit', function (Edit, ContactManager, Backbo
         template: '#contact-form',
 
         initialize: function () {
-            this.title = 'Edit ' + this.model.get('firstName');
-            this.title += ' ' + this.model.get('lastName');
+            this.title = 'Edit ' + this.model.get('firstName') + ' ' + this.model.get('lastName');
         },
 
         events: {

@@ -15,11 +15,19 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             //Request the data from Entities module in contact.js
             var fetchingContacts = ContactManager.request('contact:entities');
 
+            var contactsListLayout = new List.Layout();
+            var contactsListPanel = new List.Panel();
+
             //Define a new CompositeView from list_view.js
             $.when(fetchingContacts).done(function (contacts) {
                 contactsListView = new List.Contacts({
                     collection: contacts
                 });
+            });
+
+            contactsListLayout.on('show', function () {
+                contactsListLayout.panelRegion.show(contactsListPanel);
+                contactsListLayout.contactsRegion.show(contactsListView);
             });
 
             //Function to remove a contact from the collection
@@ -56,7 +64,7 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
             });
 
             //Render our CompositeView in our main LayoutView defined in app.js
-            ContactManager.regions.main.show(contactsListView);
+            ContactManager.regions.main.show(contactsListLayout);
         }
     };
 });

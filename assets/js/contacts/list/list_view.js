@@ -2,6 +2,19 @@
 //Name of submodule, application object, Backbone, Backbone.Marionette, jQuery, Underscore
 ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbone, Marionette, $, _) {
 
+    List.Layout = Marionette.LayoutView.extend({
+        template: '#contact-list-layout',
+
+        regions: {
+            panelRegion: '#panel-region',
+            contactsRegion: '#contacts-region'
+        },
+    });
+
+    List.Panel = Marionette.ItemView.extend({
+        template: '#contact-list-panel'
+    });
+    
     List.Contact = Marionette.ItemView.extend({
         tagName: 'tr',
         template: '#contact-list-item',
@@ -15,7 +28,7 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
         },
 
         highlightName: function (e) {
-            //Prevents the evevnt from bubbling up the DOM tree (row doesn't get highlighted when the button is clicked)
+            //Prevents the event from bubbling up the DOM tree (row doesn't get highlighted when the button is clicked)
             e.stopPropagation(); 
             this.$el.toggleClass('warning');
             this.trigger('contact:print:model', this.model); //exercise

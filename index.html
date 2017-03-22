@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>Marionette Contact Manager</title>
-    <link rel="stylesheet" href="./assets/css/jquery-ui.css">
     <link href="./assets/css/bootstrap.css" rel="stylesheet">
     <link href="./assets/css/application.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/jquery-ui.css">
 </head>
 
 <body>
@@ -107,6 +107,15 @@
             </div>
             <button class="btn btn-sm btn-success js-submit">Save</button>
         </form>
+    </script>
+
+    <script type="text/template" id="contact-list-layout">
+        <div id="panel-region"></div>
+        <div id="contacts-region"></div>
+    </script>
+
+    <script type="text/template" id="contact-list-panel">
+        <button class="btn btn-primary js-new"> New contact </button>
     </script>
 
     <script src="./assets/js/vendor/jquery.js"></script>
