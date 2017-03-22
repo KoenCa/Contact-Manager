@@ -12,58 +12,47 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
     });
 
     List.Panel = Marionette.ItemView.extend({
-        template: '#contact-list-panel'
+        template: '#contact-list-panel',
+
+        triggers: {
+            'click button.js-new': 'contact:new'
+        }
     });
-    
+
     List.Contact = Marionette.ItemView.extend({
         tagName: 'tr',
         template: '#contact-list-item',
 
+        //Triggers hash prevents default event action (like submitting) and stops the event propagation.
+        //The trigger handler ( in controller) will receive a single argument containing the view, model, and collection if applicable
+        triggers: {
+            'click td a.js-show': 'contact:show',
+            'click td a.js-edit': 'contact:edit',
+            'click button.js-delete': 'contact:delete',
+        },
+
         events: {
             'click': 'highlightName',
-            'click td a.js-show': 'showClicked',
-            'click td a.js-edit': 'editClicked',
-            'click button.js-delete': 'deleteClicked',
-            //'click td': 'displayContent'
         },
 
         highlightName: function (e) {
             //Prevents the event from bubbling up the DOM tree (row doesn't get highlighted when the button is clicked)
-            e.stopPropagation(); 
+            e.stopPropagation();
             this.$el.toggleClass('warning');
             this.trigger('contact:print:model', this.model); //exercise
         },
 
-        //Delete the contact from our collection by triggering the event in our controller
-        deleteClicked: function (e) {
-            e.stopPropagation();
-            this.trigger('contact:delete', this.model);
-        },
-
-        //Trigger controller function
-        showClicked: function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.trigger('contact:show', this.model);
-        },
-
-        //Trigger controller function
-        editClicked: function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.trigger('contact:edit', this.model);
-        },
-
         //Marionette calls this function when the model corresponding to this childView is removed
-        remove: function() {
+        remove: function () {
             var self = this;
-            this.$el.fadeOut(function() {
+            this.$el.fadeOut(function () {
                 //Calls original remove function as we hadn't redefined it.
                 Marionette.ItemView.prototype.remove.call(self);
             });
         },
 
-        flash: function(cssClass) {
+        //Make the contact flash green
+        flash: function (cssClass) {
             var $view = this.$el;
             $view.hide().toggleClass(cssClass).fadeIn(800, function () {
                 setTimeout(function () {
@@ -71,14 +60,6 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
                 }, 500);
             });
         }
-
-    /*
-        displayContent: function(e) {
-            var target = e.target;
-            var targetContent = $(target).text();
-            alert(targetContent);
-        },
-    */
     });
 
     //Use a CompositeView if you need to wrap your CollectionView
@@ -87,6 +68,22 @@ ContactManager.module('ContactsApp.List', function (List, ContactManager, Backbo
         className: 'table table-hover',
         template: '#contact-list',
         childView: List.Contact,
-        childViewContainer: 'tbody'
+        childViewContainer: 'tbody',
+
+        //Restoure default behavior of attachHtml for if the collection is reset
+        initialize: function () {
+            this.listenTo(this.collection, 'reset', function () {
+                this.attachHtml = function (collectionView, childView, index) {
+                    collectionView.$el.append(childView.el);
+                };
+            });
+        },
+
+        //Overwrite attachtHtl so when a new contact is added it needs to appear at the top of the list
+        onRenderCollection: function () {
+            this.attachHtml = function (collectionView, childView, index) {
+                collectionView.$el.prepend(childView.el);
+            };
+        }
     });
 });

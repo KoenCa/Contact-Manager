@@ -6,6 +6,12 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
     Entities.Contact = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('contacts-list'),
 
+        defaults: {
+            firstName: '',
+            lastName: '',
+            phoneNumber: ''
+        },
+
         //Validation that backbone will execute when a model is saved
         validate: function (attrs, options) {
             var errors = {};
@@ -44,36 +50,6 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
 
     var contacts;
 
-    //Function to initialize the contacts if there are none in the local storage
-    var initializeContacts = function () {
-        contacts = new Entities.ContactCollection([
-            {
-                id: 1,
-                firstName: 'Alice',
-                lastName: 'Arten',
-                phoneNumber: '555-0184'
-            },
-            {
-                id: 2,
-                firstName: 'Bob',
-                lastName: 'Brigham',
-                phoneNumber: '555-0163'
-            },
-            {
-                id: 3,
-                firstName: 'Charlie',
-                lastName: 'Campbell',
-                phoneNumber: '555-0129'
-            },
-        ]);
-
-        contacts.forEach(function (contact) {
-            contact.save();
-        });
-
-        return contacts.models;
-    };
-
     var API = {
         //Call this function use only requests
         //A deffered object's promise is basically saying 'I promise I'll do something, and I'll update you as things progress
@@ -88,12 +64,6 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
             });
 
             var promise = defer.promise();
-            $.when(promise).done(function (fetchedContacts) {
-                if (fetchedContacts.length === 0) {
-                    var models = initializeContacts();
-                    contacts.reset(models);
-                }
-            });
 
             return promise;
         },
