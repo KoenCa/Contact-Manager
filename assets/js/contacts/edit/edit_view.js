@@ -8,7 +8,8 @@ ContactManager.module('ContactsApp.Edit', function (Edit, ContactManager, Backbo
 
         submitClicked: function (e) {
             e.preventDefault();
-            console.log('Edit contact');
+            var data = Backbone.Syphon.serialize(this); //Plugin that sets the view in JSON with input names as keys
+            this.trigger('form:submit', data);
         }
     });
 });

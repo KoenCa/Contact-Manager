@@ -16,6 +16,13 @@ ContactManager.module('ContactsApp.Edit', function (Edit, ContactManager, Backbo
                     view = new Edit.Contact({
                         model: contact
                     });
+
+                    //Data from the syphon plugin gets saved in our contact
+                    view.on('form:submit', function (data) {
+                        contact.save(data);
+                        ContactManager.trigger('contact:show', contact.get('id')); //Go back to the show view after the contact is saved
+                    });
+
                 } else {
                     view = new ContactManager.ContactsApp.Show.MissingContact();
                 }
