@@ -29,7 +29,7 @@ ContactManager.on('start', function () {
 
         //Root of the app navigates to our contacts list
         if (this.getCurrentRoute() === "") {
-            ContactManager.trigger('contacts:list');
+            ContactManager.trigger('contacts:list'); //Trigger our router contacts_app.js
         }
     }
 });

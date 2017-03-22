@@ -21,6 +21,12 @@ ContactManager.module('ContactsApp.Show', function (Show, ContactManager, Backbo
                     contactView = new Show.Contact({
                         model: contact
                     });
+
+                    //Gets triggered in view
+                    contactView.on('contact:edit', function(contact) {
+                        ContactManager.trigger('contact:edit', contact.get('id')); //Trigger our router
+                    });
+
                 } else {
                     contactView = new Show.MissingContact();
                 }
