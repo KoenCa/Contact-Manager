@@ -5,6 +5,28 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
 
     Entities.Contact = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('contacts-list'),
+
+        //Validation that backbone will execute when a model is saved
+        validate: function (attrs, options) {
+            var errors = {};
+
+            //Validate firstName
+            if (!attrs.firstName) {
+                errors.firstName = "Can't be blank";
+            }
+
+            //Validate lastName
+            if (!attrs.lastName) {
+                errors.lastName = "Can't be blank";
+            } else if (attrs.lastName.length < 2) {
+                errors.lastName = "Is too short";
+            }
+
+            //Check if there are errors
+            if (! _.isEmpty(errors)) {
+                return errors;
+            }
+        }
     });
 
     //Entities.configureStorage("ContactManager.Entities.Contact");
@@ -22,6 +44,7 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
 
     var contacts;
 
+    //Function to initialize the contacts if there are none in the local storage
     var initializeContacts = function () {
         contacts = new Entities.ContactCollection([
             {
@@ -63,7 +86,7 @@ ContactManager.module('Entities', function (Entities, ContactManager, Backbone, 
                     defer.resolve(data);
                 },
             });
-            
+
             var promise = defer.promise();
             $.when(promise).done(function (fetchedContacts) {
                 if (fetchedContacts.length === 0) {

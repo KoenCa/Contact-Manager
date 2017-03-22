@@ -19,8 +19,13 @@ ContactManager.module('ContactsApp.Edit', function (Edit, ContactManager, Backbo
 
                     //Data from the syphon plugin gets saved in our contact
                     view.on('form:submit', function (data) {
-                        contact.save(data);
-                        ContactManager.trigger('contact:show', contact.get('id')); //Go back to the show view after the contact is saved
+
+                        //Validate the data
+                        if (contact.save(data)) {
+                            ContactManager.trigger('contact:show', contact.get('id')); //Go back to the show view after the contact is saved
+                        } else {
+                            view.triggerMethod('form:data:invalid', contact.validationError); //Validation erros will be handled and displayed in the view
+                        }
                     });
 
                 } else {
